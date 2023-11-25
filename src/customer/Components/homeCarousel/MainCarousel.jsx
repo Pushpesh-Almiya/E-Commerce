@@ -23,13 +23,15 @@ const data = [
 const MainCarousel = () => {
     const items = data.map((e)=><img className="cursor-pointer" role="presentation" src={e.image} alt="" />)
   return (
-    <AliceCarousel
-    items={items}
-    disableButtonsControls
-    autoPlay
-    autoPlayInterval={3000}
-    infinite
-  />
+    <div className="z-[-10]">
+      <AliceCarousel
+      items={items}
+      disableButtonsControls
+      autoPlay
+      autoPlayInterval={3000}
+      infinite
+    />
+    </div>
   )
 };
 export default MainCarousel;

@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -15,11 +16,16 @@ function classNames(...classes) {
 }
 
 export default function Navigation() {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openUserMenu = Boolean(anchorEl);
 
+  const handleCategoryClick=(category,section,item, close)=>{
+    navigate(`/${category.id}/${section.id}/${item.id}`)
+    // close() 
+  }
   const handleUserClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -34,7 +40,7 @@ export default function Navigation() {
   };
 
   return (
-    <div className="bg-white pb-10">
+    <div className="bg-white pb-4">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -313,12 +319,13 @@ export default function Navigation() {
                                                 key={item.name}
                                                 className="flex"
                                               >
-                                                <a
-                                                  href={item.href}
-                                                  className="hover:text-gray-800"
+                                                <p onClick={()=>handleCategoryClick(
+                                                  category,section,item
+                                                )}
+                                                  className="hover:text-gray-800 cursor-pointer"
                                                 >
                                                   {item.name}
-                                                </a>
+                                                </p>
                                               </li>
                                             ))}
                                           </ul>
@@ -377,7 +384,7 @@ export default function Navigation() {
                         <MenuItem onClick={handleCloseUserMnu}>
                           Profile
                         </MenuItem>
-                        <MenuItem>My Orders</MenuItem>
+                        <MenuItem onClick={()=>navigate("/account/order")}>My Orders</MenuItem>
                         <MenuItem>Logout</MenuItem>
                       </Menu>
                     </div>
@@ -403,7 +410,7 @@ export default function Navigation() {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="/" className="group -m-2 flex items-center p-2">
+                  <Link to="/cart" className="group -m-2 flex items-center p-2">
                     <ShoppingBagIcon
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -412,7 +419,7 @@ export default function Navigation() {
                       0
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
